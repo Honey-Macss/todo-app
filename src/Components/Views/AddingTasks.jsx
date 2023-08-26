@@ -10,7 +10,7 @@ const AddingTasks = ({value, changeHandler, setValue}) => {
         const wholeTasks = {
             id:tasks.length === 0 ? 1 : tasks[tasks.length - 1].id +1,
             taskName: value,
-            completed: false
+            completed: false,
         }
         setTasks([...tasks, wholeTasks])
     }
@@ -18,12 +18,14 @@ const AddingTasks = ({value, changeHandler, setValue}) => {
 
     const mappedTasks = tasks.map((task, index) => {
         return <span key={index} className={`  font-medium flex items-center justify-between p-[1rem_1.3rem] border-t-[1px] ${index === 0 && 'border-t-[0px]'}`}>
+            
                     <span className=' flex items-center gap-[1rem]'>
                         <div onClick={() => completed(task.id)} className={` ${task.completed ? "bg-[purple]" : "bg-[white]"} h-[1.5rem] w-[1.5rem] grid place-items-center rounded-full border-[grey] border-[1px] hover:cursor-pointer hover:border-[purple] `}>
-                            {task.completed && <img className=' w-[13px]' src={check} alt="check" />}
+                            {task.completed ? <img className=' w-[13px]' src={check} alt="check" /> : ""}
                         </div>
-                        <span className=' text-[1.2rem]'>{task.taskName}</span>
+                        <span className={` text-[1.2rem] ${task.completed && "line-through"}`}>{task.taskName}</span>
                     </span>
+
                     <img onClick={() => deleteTasks(task.id)} className=' hover:cursor-pointer' src={cross} alt="clear" />
                 </span>
     })
@@ -37,18 +39,26 @@ const AddingTasks = ({value, changeHandler, setValue}) => {
             if (task.id === id) {
                 return {...tasks, completed: true}
             } else {
-                return tasks
+                return task
             }
         }))
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // listens to the "enter" button on device
+        addTask();
+        setValue("");
     }
 
   return (
     <div>
         <span className='  font-medium flex bg-white items-center justify-between p-[1rem_1.3rem] rounded-[6px]'>
-            <span className=' flex items-center gap-[1rem]'>
+            <form onSubmit={handleSubmit} className=' flex items-center gap-[1rem]'>
                 <div onClick={addTask} className=' h-[1.5rem] w-[1.5rem] rounded-full border-[grey] border-[1px] hover:cursor-pointer hover:border-[purple]'></div>
                 <input className=' text-[1.2rem] outline-none' value={value} onChange={changeHandler} placeholder='Add tasks' type="text"  />
-            </span>
+            </form>
+
             {value.length > 0 &&  <img onClick={() => setValue("")} className=' hover:cursor-pointer' src={cross} alt="clear" />}
          </span>
 
