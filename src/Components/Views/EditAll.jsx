@@ -1,12 +1,7 @@
-import React from 'react'
 
-const EditAll = ({
-     tasks, setTasks}) => {
-    const completedTasks = () => {
-        setTasks([...tasks].filter((task) => task.completed))
-    }
+const EditAll = ({tasks, setTasks, setFilter}) => {
 
-    const clearAll = () => {
+    const clearCompleted = () => {
         setTasks([...tasks].filter((task) => !task.completed))
     }
 
@@ -14,21 +9,17 @@ const EditAll = ({
        return [...tasks].filter((task) => !task.completed).length;
     }
 
-    // const bringAll = () => {
-
-    // }
-
   return (
     <div className=' font-medium flex items-center justify-between p-[1rem_1.3rem]'>
         <p>{inCompletedLength()} item(s) left</p>
 
         <span className=' flex items-center gap-[1rem]'>
-            <p >All</p>
-            <p>Active</p>
-            <p onClick={completedTasks}>Completed</p>
+            <p className=' hover:cursor-pointer' onClick={() => setFilter("all")}>All</p>
+            <p className=' hover:cursor-pointer' onClick={() => setFilter("active")}>Active</p>
+            <p className=' hover:cursor-pointer' onClick={() => setFilter("completed")}>Completed</p>
         </span>
 
-        <p onClick={clearAll}>Clear Completed</p>
+        <p className=' hover:cursor-pointer' onClick={clearCompleted}>Clear Completed</p>
     </div>
   )
 }
