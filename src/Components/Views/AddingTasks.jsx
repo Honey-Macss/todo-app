@@ -26,6 +26,7 @@ const AddingTasks = ({value, changeHandler, setValue}) => {
         const wholeTasks = {
             taskName: value,
             completed: false,
+            editMode: true,
         }
         setTasks([...tasks, wholeTasks])
     }
@@ -42,6 +43,52 @@ const AddingTasks = ({value, changeHandler, setValue}) => {
         }
     }
 
+    const handleEditMode = (id) => {
+        const updatedTodos = tasks.map((task, index) => {
+            if (index === id) {
+                return {...task, editMode: false}
+
+            }else{
+                return task;
+            }
+                
+        });
+
+        setTasks(updatedTodos)
+    };
+    const cancelEditMode = (id) => {
+        const updatedTodos = tasks.map((task, index) => {
+            if (index === id) {
+                return {...task, editMode: true}
+
+            }else{
+                return task;
+            }
+                
+        });
+
+        setTasks(updatedTodos)
+    };
+
+    // const enterAndEscape = (event, index) => {
+    //     if (event === "Enter") {
+    //         cancelEditMode(index)
+    //     }
+    //     if (event === "Escape") {
+    //         cancelEditMode(index)
+    //     }
+    // }
+
+    const reTaskName = (id, newName) => {
+        const editTask = [...tasks].map((task, index) => {
+            if (index === id) {
+                task.taskName = newName
+            }
+            return task;
+        }) 
+        setTasks(editTask)
+    }
+
     const mappedTasks = todosFilter(filter).map((task, index) => {
         return <span key={index} className={`  font-medium flex items-center justify-between p-[1rem_1.3rem] border-b-[1px] `}>
             
@@ -49,7 +96,12 @@ const AddingTasks = ({value, changeHandler, setValue}) => {
                         <div onClick={() => {completed(index); console.log(task.completed, index , task.taskName); }} className={` ${task.completed ? "bg-[purple]" : "bg-[white]"} h-[1.5rem] w-[1.5rem] grid place-items-center rounded-full border-[grey] border-[1px] hover:cursor-pointer hover:border-[purple] `}>
                             {task.completed ? <img className=' w-[13px]' src={check} alt="check" /> : ""}
                         </div>
-                        <span className={` text-[1.2rem] ${task.completed && "line-through"}`}>{task.taskName}</span>
+
+                        {task.editMode ?
+                        <span onClick={() => handleEditMode(index)} className={` text-[1.2rem] ${task.completed && "line-through "}`}>{task.taskName}</span>
+                        :
+                        <form onSubmit={() => cancelEditMode(index)}> <input type="text" value={task.taskName} onChange={event => reTaskName(index, event.target.value)}  /> </form>
+                         }                   
                     </span>
 
                     <img onClick={() => deleteTasks(index)} className=' hover:cursor-pointer' src={cross} alt="clear" />
@@ -81,8 +133,8 @@ const AddingTasks = ({value, changeHandler, setValue}) => {
   return (
     <div>
         <span className='  font-medium flex bg-white items-center justify-between p-[1rem_1.3rem] rounded-[6px]'>
-            <form onSubmit={handleSubmit} className=' flex items-center gap-[1rem]'>
-                <div onClick={ addTask } className=' h-[1.5rem] w-[1.5rem] rounded-full border-[grey] border-[1px] hover:cursor-pointer hover:border-[purple]'></div>
+            <form onSubmit={handleSubmit} className=' flex items-center justify-center gap-[1rem]'>
+                <div onClick={ addTask } className=' h-[1.5rem] w-[1.5rem] grid place-items-center rounded-full border-[grey] border-[1px] hover:cursor-pointer hover:border-[purple] ' ></div>
                 <input className=' text-[1.2rem] outline-none' value={value} onChange={changeHandler} placeholder='Add tasks' type="text"  />
             </form>
 
