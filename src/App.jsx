@@ -17,8 +17,8 @@ function App() {
   
   return (
     <div className={` ${darkMode ? "dark" : ""}`}>
-      <main className={` min-h-[100vh] bg-white dark:bg-black bg-[url("./Components/Images/bg-desktop-light.jpg")] dark:bg-[url("./Components/Images/bg-desktop-dark.jpg")] bg-no-repeat bg-[length:100%_20rem]`}>
-        <div className=' w-[40rem] '>
+      <main className={` min-h-[100vh] flex justify-center bg-white dark:bg-black bg-[url("./Components/Images/bg-desktop-light.jpg")] dark:bg-[url("./Components/Images/bg-desktop-dark.jpg")] bg-no-repeat bg-[length:100%_18rem]`}>
+        <div className=' w-[35rem] mt-[3.5rem] '>
           <Heading sun={sun} moon={moon} darkMode={darkMode} toggler={toggleDarkMode} />
           <AddingTasks value={value} setValue={setValue} changeHandler={(e) => setValue(e.target.value)} />
           

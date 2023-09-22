@@ -131,11 +131,11 @@ const AddingTasks = ({value, changeHandler, setValue}) => {
     }
 
   return (
-    <div>
+    <div className=' mt-[2rem]'>
         <span className='  font-medium flex bg-white items-center justify-between p-[1rem_1.3rem] rounded-[6px]'>
             <form onSubmit={handleSubmit} className=' flex items-center justify-center gap-[1rem]'>
                 <div onClick={ addTask } className=' h-[1.5rem] w-[1.5rem] grid place-items-center rounded-full border-[grey] border-[1px] hover:cursor-pointer hover:border-[purple] ' ></div>
-                <input className=' text-[1.2rem] outline-none' value={value} onChange={changeHandler} placeholder='Add tasks' type="text"  />
+                <input className=' text-[1.2rem] w-[26rem] outline-none' value={value} onChange={changeHandler} placeholder='Add tasks' type="text"  />
             </form>
 
             {value.length > 0 &&  <img onClick={() => setValue("")} className=' hover:cursor-pointer' src={cross} alt="clear" />}
