@@ -1,11 +1,11 @@
-import  {  useState } from 'react'
 // import  { useEffect } from 'react'
 import cross from "../Images/icon-cross.svg"
 import check from "../Images/icon-check.svg"
 import Tasks from './Tasks'
 import useLocalStorage from '../hooks/useLocalStorage'
+import CreatingTaskInput from './CreatingTaskInput'
 
-const AddingTasks = ({value, changeHandler, setValue}) => {
+const AddingTasks = () => {
     const [tasks, setTasks] = useLocalStorage("tasks", []);
 
     // useEffect(() => {
@@ -19,129 +19,12 @@ const AddingTasks = ({value, changeHandler, setValue}) => {
     //     setTasks(tasks);
     // }, [])
     
-    const addTask = () => {
-        if (value.trim().length === 0 ) {
-            return;
-        }
-        const wholeTasks = {
-            taskName: value,
-            completed: false,
-            editMode: true,
-        }
-        setTasks([...tasks, wholeTasks])
-    }
-
-    const [filter, setFilter] = useState("all")
-
-    const todosFilter = (filter) => {
-        if (filter === "all") {
-            return tasks;
-        } else if (filter === "active") {
-            return tasks.filter((task) => !task.completed);
-        } else if (filter === "completed") {
-            return tasks.filter((task) => task.completed);
-        }
-    }
-
-    const handleEditMode = (id) => {
-        const updatedTodos = tasks.map((task, index) => {
-            if (index === id) {
-                return {...task, editMode: false}
-
-            }else{
-                return task;
-            }
-                
-        });
-
-        setTasks(updatedTodos)
-    };
-    const cancelEditMode = (id) => {
-        const updatedTodos = tasks.map((task, index) => {
-            if (index === id) {
-                return {...task, editMode: true}
-
-            }else{
-                return task;
-            }
-                
-        });
-
-        setTasks(updatedTodos)
-    };
-
-    // const enterAndEscape = (event, index) => {
-    //     if (event === "Enter") {
-    //         cancelEditMode(index)
-    //     }
-    //     if (event === "Escape") {
-    //         cancelEditMode(index)
-    //     }
-    // }
-
-    const reTaskName = (id, newName) => {
-        const editTask = [...tasks].map((task, index) => {
-            if (index === id) {
-                task.taskName = newName
-            }
-            return task;
-        }) 
-        setTasks(editTask)
-    }
-
-    const mappedTasks = todosFilter(filter).map((task, index) => {
-        return <span key={index} className={`  font-medium flex items-center justify-between p-[1rem_1.3rem] border-b-[1px] `}>
-            
-                    <span className=' flex items-center gap-[1rem]'>
-                        <div onClick={() => {completed(index); console.log(task.completed, index , task.taskName); }} className={` ${task.completed ? "bg-[purple]" : "bg-[white]"} h-[1.5rem] w-[1.5rem] grid place-items-center rounded-full border-[grey] border-[1px] hover:cursor-pointer hover:border-[purple] `}>
-                            {task.completed ? <img className=' w-[13px]' src={check} alt="check" /> : ""}
-                        </div>
-
-                        {task.editMode ?
-                        <span onClick={() => handleEditMode(index)} className={` text-[1.2rem] ${task.completed && "line-through "}`}>{task.taskName}</span>
-                        :
-                        <form onSubmit={() => cancelEditMode(index)}> <input type="text" value={task.taskName} onChange={event => reTaskName(index, event.target.value)}  /> </form>
-                         }                   
-                    </span>
-
-                    <img onClick={() => deleteTasks(index)} className=' hover:cursor-pointer' src={cross} alt="clear" />
-                </span>
-    })
-
-    const deleteTasks = (id) => {
-        setTasks(tasks.filter((task, index) => index !== id))
-    } 
     
-    const completed =(id) => {
-        const completeTodos = tasks.map((task, index) => {
-            if (index === id) {
-                task.completed = !task.completed;
-            }
-            return task;
-        });
-        setTasks(completeTodos);
-    }
-
-    
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // listens to the "enter" button on device
-        addTask();
-        setValue("");
-    }
 
   return (
     <div className=' mt-[2rem]'>
-        <span className='  font-medium flex bg-white items-center justify-between p-[1rem_1.3rem] rounded-[6px]'>
-            <form onSubmit={handleSubmit} className=' flex items-center justify-center gap-[1rem]'>
-                <div onClick={ addTask } className=' h-[1.5rem] w-[1.5rem] grid place-items-center rounded-full border-[grey] border-[1px] hover:cursor-pointer hover:border-[purple] ' ></div>
-                <input className=' text-[1.2rem] w-[26rem] outline-none' value={value} onChange={changeHandler} placeholder='Add tasks' type="text"  />
-            </form>
-
-            {value.length > 0 &&  <img onClick={() => setValue("")} className=' hover:cursor-pointer' src={cross} alt="clear" />}
-         </span>
-
-    <Tasks mappedTasks={mappedTasks} setFilter={setFilter} tasks={tasks} setTasks={setTasks} />
+        <CreatingTaskInput tasks={tasks} setTasks={setTasks} cross={cross} />
+        <Tasks tasks={tasks} setTasks={setTasks} check={check} cross={cross} />
     </div>
   )
 }

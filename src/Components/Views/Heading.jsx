@@ -9,4 +9,4 @@ const Heading = ({darkMode, moon, sun, toggler}) => {
   )
 }
 
-export default Heading
+export default Heading;
