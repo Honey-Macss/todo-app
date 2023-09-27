@@ -22,7 +22,7 @@ const AddingTasks = () => {
     
 
   return (
-    <div className=' mt-[2rem]'>
+    <div className=' mt-[2rem] sm:mt-[1.5rem]'>
         <CreatingTaskInput tasks={tasks} setTasks={setTasks} cross={cross} />
         <Tasks tasks={tasks} setTasks={setTasks} check={check} cross={cross} />
     </div>

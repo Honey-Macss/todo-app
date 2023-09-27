@@ -16,13 +16,13 @@ const EditAll = ({tasks, setTasks}) => {
       }))
     }
 
-    const repeatedStyle = ["text-[#a0a0a8] dark:text-[#61627e] hover:cursor-pointer hover:text-[#222221] dark:hover:text-[#fbfbfb]"]
+    const repeatedStyle = ["text-[#a0a0a8] md:text-[0.8rem] dark:text-[#61627e] hover:cursor-pointer hover:text-[#222221] dark:hover:text-[#fbfbfb]"]
     
   return (
-    <div className=' font-medium flex items-center justify-between p-[1rem_1.3rem] '>
-        <p className=" text-[#a0a0a8] dark:text-[#61627e]">{inCompletedLength()} item(s) left</p>
+    <div className=' font-medium flex items-center justify-between p-[1rem_1.3rem] md:p-[0.8rem_1rem] '>
+        <p className=" text-[#a0a0a8] md:text-[0.8rem] dark:text-[#61627e]">{inCompletedLength()} item(s) left</p>
 
-        <p className={repeatedStyle} onClick={checkAll}>Check All</p>
+        <p className={` ${repeatedStyle} sm:hidden`} onClick={checkAll}>Check All</p>
 
         <p className={repeatedStyle} onClick={clearCompleted}>Clear Completed</p>
     </div>
